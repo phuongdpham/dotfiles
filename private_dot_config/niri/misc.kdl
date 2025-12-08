@@ -1,6 +1,6 @@
 spawn-at-startup "alacritty"  "-e" "fish"
 spawn-at-startup "qs" "-c" "noctalia-shell"
-spawn-at-startup "mako"
+// spawn-at-startup "mako"
 spawn-at-startup "fcitx5" "-d"
 
 // Example for a very warm night light (6500K day to 3000K night)
