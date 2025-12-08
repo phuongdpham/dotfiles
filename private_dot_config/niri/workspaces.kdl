@@ -1,3 +1,7 @@
+workspace "browser" {
+    open-on-output "eDP-1"
+}
+
 workspace "notes" {
     open-on-output "eDP-1"
 
@@ -36,6 +40,3 @@ workspace "chat" {
     open-on-output "eDP-1"
 }
 
-workspace "browser" {
-    open-on-output "eDP-1"
-}

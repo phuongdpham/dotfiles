@@ -20,6 +20,7 @@ alias pr   "sudo pacman -Rscn"
 alias pss  "pacman -Ss"
 alias psy  "sudo pacman -Sy"
 alias psyu "sudo pacman -Syu"
+alias spm  "sudo pacman"
 
 alias pa   "pacaur -S"
 alias pas  "pacaur -Ss"

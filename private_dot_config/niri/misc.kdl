@@ -50,8 +50,7 @@ environment {
     // GSK_RENDERER "cairo"
     // WAYLAND_DISPLAY null
     _JAVA_AWT_WM_NONREPARENTING "1"
-    GTK_IM_MODULE "simple"
-    
+
     QT_IM_MODULE "fcitx"
     XMODIFIERS "@im=fcitx"
     SDL_IM_MODULE "fcitx"
@@ -144,5 +143,5 @@ hotkey-overlay {
 }
 
 clipboard {
-    // disable-primary
+    disable-primary
 }
