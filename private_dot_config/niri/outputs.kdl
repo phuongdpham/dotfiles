@@ -1,0 +1,7 @@
+output "BOE 0x094C Unknown" {
+    scale 1.25
+    position x=0 y=0
+    mode "1920x1200@60.003"
+
+    variable-refresh-rate on-demand=true
+}
