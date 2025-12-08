@@ -3,7 +3,7 @@ input {
         xkb {
             layout "us"
             // variant "colemak_dh_ortho,"
-            options "compose:ralt,caps:escape"
+            options "compose:ralt,caps:escape,altwin:swap_lalt_lwin"
         }
 
         repeat-delay 200
