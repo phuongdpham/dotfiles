@@ -1,7 +1,5 @@
 workspace "notes" {
-    // open-on-output "DP-2"
-    // open-on-output "Acer Technologies XV320QU LV 420615FCD4200"
-    open-on-output "Dell Inc. Dell S2716DG #ASOwvAqQj0Dd"
+    open-on-output "eDP-1"
 
     /-layout {
         // gaps 32
@@ -35,11 +33,9 @@ workspace "notes" {
 workspace "chat" {
     // open-on-output "DP-2"
     // open-on-output "Acer Technologies XV320QU LV 420615FCD4200"
-    open-on-output "Dell Inc. Dell S2716DG #ASOwvAqQj0Dd"
-    // open-on-output "eDP-2"
+    open-on-output "eDP-1"
 }
 
 workspace "browser" {
-    open-on-output "Acer Technologies XV320QU LV 420615FCD4200"
-    // open-on-output "DP-2"
+    open-on-output "eDP-1"
 }
