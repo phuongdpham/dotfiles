@@ -1,0 +1,11 @@
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+[user]
+	email = phamduyphuong10@gmail.com
+	name = phuongdpham
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/
+[core]
+	autocrlf = input
+[init]
+	defaultBranch = main
