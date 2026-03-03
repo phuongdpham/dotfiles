@@ -1,24 +1,24 @@
-alias ls "ls --human-readable --literal --group-directories-first --color=auto"
+abbr --add ls ls --human-readable --literal --group-directories-first --color=auto
 # alias ls "eza --group-directories-first"
-alias l "ls -l"
-alias la "l -a"
+abbr --add l ls -l
+abbr --add la l -a
 
-alias mkdir "mkdir -p"
-alias mv "mv -i"
+abbr --add mkdir mkdir -p
+abbr --add mv mv -i
 
-alias p    "pacman"
-alias pu   "sudo pacman -Syu"
-alias pq   "pacman -Q"
-alias pqi  "pacman -Qi"
-alias pql  "pacman -Ql"
-alias pr   "sudo pacman -Rscn"
-alias pss  "pacman -Ss"
-alias psy  "sudo pacman -Sy"
-alias psyu "sudo pacman -Syu"
-alias spm  "sudo pacman"
+abbr --add p    pacman
+abbr --add pu   sudo pacman -Syu
+abbr --add pq   pacman -Q
+abbr --add pqi  pacman -Qi
+abbr --add pql  pacman -Ql
+abbr --add pr   sudo pacman -Rscn
+abbr --add pss  pacman -Ss
+abbr --add psy  sudo pacman -Sy
+abbr --add psyu sudo pacman -Syu
+abbr --add spm  sudo pacman
 
-alias pa   "pacaur -S"
-alias pas  "pacaur -Ss"
+abbr --add pa   pacaur -S
+abbr --add pas  pacaur -Ss
 
 # flatpak autocomplete is broken with an alias
 abbr --add f   flatpak
@@ -26,14 +26,14 @@ abbr --add fu  flatpak update
 abbr --add fi  flatpak install
 abbr --add fiu flatpak install --user
 
-alias c "cargo"
-alias cn "cargo +nightly"
+abbr --add c cargo
+abbr --add cn cargo +nightly
 
-alias sc  "systemctl"
-alias scu "systemctl --user"
+abbr --add sc  systemctl
+abbr --add scu systemctl --user
 
-alias jc    "journalctl"
-alias jcn   "journalctl --no-hostname"
-alias jcnb  "journalctl --no-hostname -b"
-alias jcneb "journalctl --no-hostname -eb"
-alias jcnuu "journalctl --no-hostname --user-unit"
+abbr --add jc    journalctl
+abbr --add jcn   journalctl --no-hostname
+abbr --add jcnb  journalctl --no-hostname -b
+abbr --add jcneb journalctl --no-hostname -eb
+abbr --add jcnuu journalctl --no-hostname --user-unit
