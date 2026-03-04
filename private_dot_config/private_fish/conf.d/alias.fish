@@ -1,7 +1,14 @@
-abbr --add ls ls --human-readable --literal --group-directories-first --color=auto
-# alias ls "eza --group-directories-first"
-abbr --add l ls -l
-abbr --add la l -a
+# abbr --add ls ls --human-readable --literal --group-directories-first --color=auto
+# abbr --add l ls -l
+# abbr --add la l -a
+
+
+if type -q eza
+    alias ls 'eza --grid --long --icons --header --group-directories-first --color=always --git --binary --modified'
+    abbr --add l ls -l
+    abbr --add la ls -la
+    abbr --add lt eza --tree --level=2 --icons
+end
 
 abbr --add mkdir mkdir -p
 abbr --add mv mv -i
