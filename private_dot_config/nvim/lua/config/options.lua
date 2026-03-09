@@ -17,27 +17,27 @@ set.smartcase = true
 
 -- appearance
 set.termguicolors = true
-set.background = "dark"
-set.signcolumn = "yes"
+set.background = 'dark'
+set.signcolumn = 'yes'
 
 -- cursor line
 set.cursorline = true
 
 -- 80th column
-set.colorcolumn = "80"
+set.colorcolumn = '80'
 
 -- clipboard
-set.clipboard:append("unnamedplus")
+set.clipboard:append('unnamedplus')
 
 -- backspace
-set.backspace = "indent,eol,start"
+set.backspace = 'indent,eol,start'
 
 -- split windows
 set.splitbelow = true
 set.splitright = true
 
 -- dw/diw/ciw works on full-word
-set.iskeyword:append("-")
+set.iskeyword:append('-')
 
 -- keep cursor at least 8 rows from top/bot
 set.scrolloff = 8
@@ -45,7 +45,7 @@ set.scrolloff = 8
 -- undo dir settings
 set.swapfile = false
 set.backup = false
-set.undodir = os.getenv("HOME") .. "/.vim/undodir"
+set.undodir = os.getenv('HOME') .. '/.vim/undodir'
 set.undofile = true
 
 -- incremental search

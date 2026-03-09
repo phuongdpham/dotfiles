@@ -1,17 +1,11 @@
 return {
-  "windwp/nvim-autopairs",
-  event = "InsertEnter",
-  dependencies = { "hrsh7th/nvim-cmp" },
+  'windwp/nvim-autopairs',
+  event = 'InsertEnter',
   config = function()
-    local npairs = require("nvim-autopairs")
-    npairs.setup({
+    local npairs = require('nvim-autopairs')
+    npairs.setup {
       check_ts = true, -- Enable Tree-sitter integration
-    })
-
-    -- CRITICAL: This hooks autopairs into nvim-cmp
-    -- When you press <CR> (Enter) on a completion, it handles the brackets correctly
-    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-    local cmp = require("cmp")
-    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      enable_check_bracket_line = false, -- Don't add pairs if it already has a close pair in the same line
+    }
   end,
 }
