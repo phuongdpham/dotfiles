@@ -20,10 +20,22 @@ return {
               capabilities = capabilities,
             }
 
-            -- Server-specific overrides
+            -- 1. Lua Overrides
             if server_name == 'lua_ls' then
               server_opts.settings = {
                 Lua = { diagnostics = { globals = { 'vim' } } },
+              }
+            end
+
+            -- 2. Go (gopls) Overrides to fix the warnings
+            if server_name == 'gopls' then
+              server_opts.filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' }
+
+              server_opts.settings = {
+                gopls = {
+                  usePlaceholders = true,
+                  completeUnimported = true,
+                },
               }
             end
 
