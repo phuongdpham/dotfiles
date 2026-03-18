@@ -1,7 +1,8 @@
-output "BOE 0x094C Unknown" {
+output "Dell Inc. DELL P2421D 174VR63" {
+    mode "2560x1440@59.951"
+
     scale 1
     position x=0 y=0
-    mode "1920x1200@60.003"
 
-    variable-refresh-rate on-demand=true
+    // variable-refresh-rate on-demand=true
 }
