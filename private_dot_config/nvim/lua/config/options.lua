@@ -53,3 +53,5 @@ set.incsearch = true
 
 -- faster cursor hold
 set.updatetime = 50
+
+set.timeoutlen = 300

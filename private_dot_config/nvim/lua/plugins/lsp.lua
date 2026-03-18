@@ -1,11 +1,8 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = {
-      'mason-org/mason.nvim',
-      'mason-org/mason-lspconfig.nvim',
-      'saghen/blink.cmp',
-    },
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
     config = function()
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
@@ -56,6 +53,9 @@ return {
       }
     end,
   },
+  -- Mason decoupled as a top-level dependency
+  { 'mason-org/mason.nvim', cmd = 'Mason', opts = {} },
+  { 'mason-org/mason-lspconfig.nvim', lazy = true },
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
