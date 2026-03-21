@@ -2,10 +2,12 @@
 workspace "browser" {
     open-on-output "Dell Inc. DELL P2421D 174VR63"
 }
-workspace "notes" {
-    open-on-output "Dell Inc. DELL P2421D 174VR63"
-}
 workspace "chat" {
     open-on-output "Dell Inc. DELL P2421D 174VR63"
 }
-
+workspace "backend" {
+    open-on-output "Dell Inc. DELL P2421D 174VR63"
+}
+workspace "frontend" {
+    open-on-output "Dell Inc. DELL P2421D 174VR63"
+}

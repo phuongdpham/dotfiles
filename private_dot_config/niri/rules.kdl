@@ -18,6 +18,7 @@ window-rule {
 // Efficiency: Web Browsers / Dev Tools
 window-rule {
     match app-id="firefox"
+    match app-id="chromium"
     default-column-display "tabbed"
     default-column-width { proportion 0.66667; }
 }
@@ -29,4 +30,25 @@ window-rule {
     match app-id="nm-connection-editor"
     match app-id="pavucontrol"
     open-floating true
+}
+
+// Jetbrains applications
+window-rule {
+    match app-id=r"jetbrains-.+"
+    open-maximized true
+    default-column-display "tabbed"
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id="jetbrains-goland"
+    open-on-workspace "backend"
+}
+window-rule {
+    match app-id="jetbrains-pycharm"
+    open-on-workspace "backend"
+}
+window-rule {
+    match app-id="jetbrains-rustrover"
+    open-on-workspace "backend"
 }

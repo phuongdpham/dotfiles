@@ -10,11 +10,11 @@ binds {
     Mod+T           { spawn "~/source/sh/spawn-alacritty.bash" "toolbox"; }
     Mod+Shift+T     { spawn "~/source/sh/spawn-alacritty.bash" "host"; }
     Mod+Space       { spawn "fuzzel"; }
-    Mod+Shift+D     { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Mod+Shift+Space { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
     Mod+B           { spawn "firefox"; }
     Mod+N           { spawn "nautilus"; } // N for Nautilus/Files
     Mod+E           { spawn "t" "neovide"; }
-    Mod+Shift+S   { spawn "set-theme"; }
+    Mod+Shift+S     { spawn "set-theme"; }
 
     // === Hardware & Media ===
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
@@ -23,22 +23,20 @@ binds {
     XF86MonBrightnessUp   allow-when-locked=true { spawn-sh "brightnessctl set +10%"; }
     XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl set 10%-"; }
 
-    // Custom Display Profiles
-    Super+Alt+M     { spawn "~/source/sh/refresh.sh" "170"; }
-    Super+Alt+Comma { spawn "~/source/sh/refresh.sh" "120"; }
-
     // === Navigation (HJKL + Focus Logic) ===
     Mod+H           { focus-column-left; }
     Mod+J           { focus-window-down; }
     Mod+K           { focus-window-up; }
     Mod+L           { focus-column-right; }
-    
+
     // Quick Ribbon Jumps
     Mod+Home        { focus-column-first; }
     Mod+End         { focus-column-last; }
     Mod+U           { focus-workspace-down; }
     Mod+I           { focus-workspace-up; }
-    
+    Mod+Shift+U     { move-workspace-down; }
+    Mod+Shift+I     { move-workspace-up; }
+
     // === Window/Column Movement ===
     Mod+Shift+H     { move-column-left; }
     Mod+Shift+J     { move-window-down; }
@@ -54,6 +52,7 @@ binds {
     Mod+Shift+F     { fullscreen-window; }
     Mod+C           { center-column; }
     Mod+V           { toggle-window-floating; }
+    Mod+Shift+V     { switch-focus-between-floating-and-tiling; }
     Mod+R           { switch-preset-column-width; }
 
     // === Navigation & Overview ===
