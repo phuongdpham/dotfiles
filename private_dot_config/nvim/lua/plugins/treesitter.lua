@@ -9,7 +9,7 @@ return {
     -- 2. Use 'init' for filetype detection (as before)
     init = function()
       vim.filetype.add {
-        extension = { mdx = 'mdx', gowork = 'gowork', gotmpl = 'gotmpl', kdl = 'kdl' },
+        extension = { mdx = 'mdx', gowork = 'gowork', gotmpl = 'gotmpl', tmpl = 'tmpl', kdl = 'kdl' },
         filename = { ['go.work'] = 'gowork', ['go.mod'] = 'gomod' },
       }
     end,
@@ -31,6 +31,7 @@ return {
         'latex',
         'yaml',
         'go',
+        'gotmpl',
         'java',
         'lua',
         'markdown',
@@ -42,6 +43,8 @@ return {
         'cmake',
         'kdl',
       }):wait(300000) -- wait max. 5 minutes
+
+      vim.treesitter.language.register('gotmpl', 'gotmpl')
 
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
