@@ -9,7 +9,7 @@ return {
     -- 2. Use 'init' for filetype detection (as before)
     init = function()
       vim.filetype.add {
-        extension = { mdx = 'mdx', gowork = 'gowork', gotmpl = 'gotmpl' },
+        extension = { mdx = 'mdx', gowork = 'gowork', gotmpl = 'gotmpl', kdl = 'kdl' },
         filename = { ['go.work'] = 'gowork', ['go.mod'] = 'gomod' },
       }
     end,
@@ -40,6 +40,7 @@ return {
         'sql',
         'cpp',
         'cmake',
+        'kdl',
       }):wait(300000) -- wait max. 5 minutes
 
       vim.api.nvim_create_autocmd('FileType', {

@@ -5,6 +5,17 @@ return {
     cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
     config = function()
       local capabilities = require('blink.cmp').get_lsp_capabilities()
+      -- local lspconfig = require('lspconfig')
+
+      -- 1. Manual Setup for kdl-lsp (since Mason doesn't have it)
+      -- We define it directly using nvim-lspconfig's utility
+      -- vim.lsp.config('kdl_lsp', {
+      --   cmd = { 'kdl-lsp' },
+      --   filetypes = { 'kdl' },
+      --   root_markers = { '.git', 'niri' },
+      --   capabilities = capabilities,
+      -- })
+      -- vim.lsp.enable('kdl_lsp')
 
       -- Setup Mason-LSPConfig AND Handlers in one go
       require('mason-lspconfig').setup {
@@ -35,6 +46,12 @@ return {
                 },
               }
             end
+
+            -- 3. KDL Overrides (kdl_lsp)
+            -- if server_name == 'kdl_lsp' then
+            --   server_opts.filetypes = { 'kdl' }
+            --   -- Add specific settings here if needed based on crates.io documentation
+            -- end
 
             vim.lsp.config(server_name, server_opts)
             vim.lsp.enable(server_name)

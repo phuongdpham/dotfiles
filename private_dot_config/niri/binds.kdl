@@ -2,20 +2,19 @@ binds {
     // === System & Meta ===
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Shift+E     { quit; }
-    Mod+Escape      { toggle-keyboard-shortcuts-inhibit; }
-    Super+Alt+L     allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
-    Super+Escape    { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
+    Mod+Alt+L     allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
+    Mod+Escape    { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
 
     // === Applications (Mnemonic Optimized) ===
     Mod+Return      { spawn "alacritty"; }
     Mod+T           { spawn "~/source/sh/spawn-alacritty.bash" "toolbox"; }
     Mod+Shift+T     { spawn "~/source/sh/spawn-alacritty.bash" "host"; }
-    Mod+D           { spawn "fuzzel"; }
+    Mod+Space       { spawn "fuzzel"; }
     Mod+Shift+D     { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Mod+B           { spawn "firefox"; }
     Mod+N           { spawn "nautilus"; } // N for Nautilus/Files
     Mod+E           { spawn "t" "neovide"; }
-    Super+Shift+S   { spawn "set-theme"; }
+    Mod+Shift+S   { spawn "set-theme"; }
 
     // === Hardware & Media ===
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
