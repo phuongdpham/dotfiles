@@ -7,6 +7,9 @@ end
 set -gx EDITOR nvim
 set -gx EDITOR_VISUAL nvim
 
+# Set default terminal for btop/fuzzel
+set -gx TERMINAL alacritty
+
 # Fix emoji and others rendering
 set -g fish_emoji_width 2
 set -g fish_cursor_insert line

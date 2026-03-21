@@ -3,6 +3,7 @@ spawn-at-startup "alacritty" "-e" "fish"
 spawn-at-startup "qs" "-c" "noctalia-shell"
 spawn-at-startup "fcitx5" "-d"
 spawn-at-startup "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "XDG_DATA_DIRS" "TERMINAL" "WAYLAND_DISPLAY"
 
 // === Alt-Tab Behavior (Recent Windows) ===
 recent-windows {
@@ -36,7 +37,7 @@ environment {
     // GTK/Qt Wayland Force
     QT_QPA_PLATFORM "wayland"
     GDK_BACKEND "wayland,x11"
-    
+
     // Theme consistency
     QT_QPA_PLATFORMTHEME "gtk3"
 }

@@ -29,6 +29,8 @@ window-rule {
     match title="^Picture-in-Picture$"
     match app-id="nm-connection-editor"
     match app-id="pavucontrol"
+    match app-id="com.saivert.pwvucontrol"
+
     open-floating true
 }
 
