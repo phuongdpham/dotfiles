@@ -9,3 +9,50 @@
 	autocrlf = input
 [init]
 	defaultBranch = main
+
+[delta "oled-neon"]
+    # True black background for OLED pixels to turn off
+    minus-style = "#d700ff" bold
+    minus-non-emph-style = "#5f005f"
+    minus-emph-style = white bold "#8700af"
+
+    plus-style = "#00ffff" bold
+    plus-non-emph-style = "#005f5f"
+    plus-emph-style = white bold "#008787"
+
+    # UI Elements
+    line-numbers = true
+    line-numbers-minus-style = "#af00ff"
+    line-numbers-plus-style = "#00afff"
+    line-numbers-zero-style = "#444444"
+
+    # Clean up the borders for a minimalist Arch look
+    commit-decoration-style = bold box "#5f00af"
+    file-style = bold "#00afff"
+    file-decoration-style = none
+    hunk-header-decoration-style = "#5f00af" box
+    hunk-header-style = "#00ffff" bold
+
+[delta "ips-slate"]
+    # Softer background to mask IPS glow
+    minus-style = "#ff79c6" bold "#2d2d2d"
+    minus-emph-style = white bold "#ff217c"
+
+    plus-style = "#8be9fd" bold "#2d2d2d"
+    plus-emph-style = white bold "#00afaf"
+
+    # UI Elements
+    line-numbers = true
+    line-numbers-minus-style = "#bd93f9"
+    line-numbers-plus-style = "#8be9fd"
+
+    # Boxed headers look great on 1440p
+    hunk-header-decoration-style = "#6272a4" box
+    hunk-header-file-style = "#f8f8f2"
+    syntax-theme = TokyoNight-Storm
+
+[delta]
+    features = ips-slate
+    side-by-side = false
+    syntax-theme = Coldark-Dark
+    true-color = always
