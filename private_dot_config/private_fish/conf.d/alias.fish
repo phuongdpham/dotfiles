@@ -21,7 +21,7 @@ if status is-interactive
 
     # --- System & Niri ---
     # Reload niri config after you make changes
-    abbr -a nrel 'niri msg action do-reload'
+    abbr -a nrel 'niri msg action reload-config'
 
     # Identify windows for your config.kdl rules
     abbr -a nwin 'niri msg windows'
@@ -73,10 +73,6 @@ abbr --add jcnuu journalctl --no-hostname --user-unit
 abbr --add dcud docker compose up -d
 abbr --add dcd docker compose down
 abbr --add dps docker ps
-
-# Use fzf to preview diffs and pick files to 'chezmoi add'
-# Tab to select multiple, Enter to add
-abbr -a cz_pick 'chezmoi status | fzf -m --preview "chezmoi diff (string replace -r \'^.{3}\' \'\' <<< {})" | string replace -r \'^.{3}\' \'\' | xargs -I {} chezmoi add ~/{%}'
 
 # 'czp' for 'chezmoi push'
 abbr -a czp cz_sync
