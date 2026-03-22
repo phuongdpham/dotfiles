@@ -1,0 +1,67 @@
+name: okx-hft-storage-system
+
+services:
+  questdb:
+    # Sử dụng phiên bản mới nhất tính đến đầu năm 2026
+    image: questdb/questdb:9.3.3
+    container_name: questdb_hft_pro
+    restart: always
+
+    # Cấu hình tài nguyên phần cứng (Resource Tuning)
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'       # Giới hạn 4 cores CPU cho DB
+          memory: 8GB       # Giới hạn 8GB RAM
+        reservations:
+          cpus: '2.0'
+          memory: 4GB
+
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+
+    # Các cổng giao tiếp tiêu chuẩn
+    ports:
+      - "9000:9000"   # Web Console & REST API
+      - "9009:9009"   # InfluxDB Line Protocol (ILP) - Tốc độ nạp dữ liệu chính
+      - "8812:8812"   # PostgreSQL Wire Protocol - Truy vấn SQL
+      - "9003:9003"   # Prometheus Metrics (Health & Monitoring)
+
+    environment:
+      # --- [TỐI ƯU HÓA NẠP DỮ LIỆU TỪ OKX] ---
+      # Tăng kích thước buffer nhận dữ liệu TCP lên 32MB để chịu tải khi burst dữ liệu
+      - QDB_LINE_TCP_NET_RECV_BUF_SIZE=33554432
+      # Tối ưu hóa số lượng luồng làm việc đồng thời (Worker Threads)
+      - QDB_SHARED_WORKER_COUNT=4
+
+      # --- [AN TOÀN DỮ LIỆU & PERSISTENCE] ---
+      # Kích hoạt WAL (Write-Ahead Log) mặc định cho tất cả các bảng
+      - QDB_CAIRO_WAL_ENABLED_DEFAULT=true
+      # Gom 500,000 dòng dữ liệu rồi mới ghi xuống đĩa một lần (Tăng throughput)
+      - QDB_CAIRO_WAL_DATA_FLUSH_THRESHOLD=500000
+      # Độ trễ tối đa cho phép trước khi tự động commit (micro giây)
+      - QDB_CAIRO_COMMIT_LAG=1000000
+
+      # --- [HỆ THỐNG & MONITORING] ---
+      - QDB_METRICS_ENABLED=true         # Bật theo dõi chỉ số hiệu năng
+      - QDB_TELEMETRY_ENABLED=false      # Tắt gửi dữ liệu về hãng
+      - QDB_QUERY_TIMEOUT_SEC=60         # Giới hạn thời gian truy vấn phức tạp
+
+    volumes:
+      # Ánh xạ thư mục dữ liệu để tránh "bay màu" khi restart
+      - ./qdb_data:/var/lib/questdb
+      # (Tùy chọn) Ánh xạ file log để em dễ theo dõi từ máy host
+      - ./qdb_logs:/var/lib/questdb/log
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9003/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+networks:
+  default:
+    name: hft_network
