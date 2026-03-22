@@ -4,5 +4,5 @@ output "Dell Inc. DELL P2421D 174VR63" {
     scale 1
     position x=0 y=0
 
-    // variable-refresh-rate on-demand=true
+    variable-refresh-rate on-demand=true
 }

@@ -46,7 +46,7 @@ function cz_sync
         echo (set_color green)"✔ Successfully pushed to GitHub."(set_color normal)
 
         # Auto-reload Niri if config was touched
-        if string match -q "*.config/niri/config.kdl" $selected
+        if string match -q "*.config/niri/*.kdl" $selected
             niri msg action do-reload
             echo (set_color blue)"⚡ Niri reloaded."(set_color normal)
         end
