@@ -68,3 +68,8 @@ abbr --add jcn journalctl --no-hostname
 abbr --add jcnb journalctl --no-hostname -b
 abbr --add jcneb journalctl --no-hostname -eb
 abbr --add jcnuu journalctl --no-hostname --user-unit
+
+# Docker and Docker compose
+abbr --add dcud docker compose up -d
+abbr --add dcd docker compose down
+abbr --add dps docker ps
