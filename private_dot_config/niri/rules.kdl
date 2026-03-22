@@ -37,20 +37,38 @@ window-rule {
 // Jetbrains applications
 window-rule {
     match app-id=r"jetbrains-.+"
+
     open-maximized true
+    open-focused true
+
     default-column-display "tabbed"
     default-column-width { proportion 1.0; }
 }
 
 window-rule {
+    match app-id=r"jetbrains-.+"
+
+    match title="Updates"
+    match title="Restart"
+    match title="Welcome to"
+    match title="Settings"
+    match title="License"
+
+    open-maximized false
+    default-column-width { }
+}
+
+window-rule {
     match app-id="jetbrains-goland"
-    open-on-workspace "backend"
-}
-window-rule {
     match app-id="jetbrains-pycharm"
+    match app-id="jetbrains-rustrover"
+    match app-id="jetbrains-idea"
+
     open-on-workspace "backend"
 }
+
 window-rule {
-    match app-id="jetbrains-rustrover"
-    open-on-workspace "backend"
+    match app-id="jetbrains-webstorm"
+
+    open-on-workspace "frontend"
 }
