@@ -73,3 +73,10 @@ abbr --add jcnuu journalctl --no-hostname --user-unit
 abbr --add dcud docker compose up -d
 abbr --add dcd docker compose down
 abbr --add dps docker ps
+
+# Use fzf to preview diffs and pick files to 'chezmoi add'
+# Tab to select multiple, Enter to add
+abbr -a cz_pick 'chezmoi status | fzf -m --preview "chezmoi diff (string replace -r \'^.{3}\' \'\' <<< {})" | string replace -r \'^.{3}\' \'\' | xargs -I {} chezmoi add ~/{%}'
+
+# 'czp' for 'chezmoi push'
+abbr -a czp cz_sync
