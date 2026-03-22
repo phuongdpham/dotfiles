@@ -11,6 +11,8 @@ function cz_sync
     set -l selected (printf "%s\n" $changes | fzf -m \
         --ansi \
         --header "TAB: Select | ENTER: Sync | ESC: Cancel | ALT-J/K: Scroll" \
+        --bind "ctrl-d:preview-page-down" \
+        --bind "ctrl-k:preview-page-up" \
         --bind "alt-j:preview-down" \
         --bind "alt-k:preview-up" \
         --preview "chezmoi diff {2..} | delta --width (math \$FZF_PREVIEW_COLUMNS - 2) --features ips-slate" \
