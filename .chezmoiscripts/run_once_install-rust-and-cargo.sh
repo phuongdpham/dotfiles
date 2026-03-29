@@ -3,7 +3,7 @@
 echo "Starting Rust and Cargo setup..."
 
 # 1. Install Rustup non-interactively (if not already installed)
-if ! command -v rustup &> /dev/null; then
+if ! command -v rustup &>/dev/null; then
     echo "Installing Rustup..."
     # The -y flag skips the interactive prompts
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -29,3 +29,12 @@ cargo install \
     bat
 
 echo "Rust and Cargo setup complete!"
+
+# Ensure the bin directory exists
+mkdir -p "$HOME/.local/bin"
+
+# Force permissions just in case
+if [ -f "$HOME/.local/bin/check_and_update.fish" ]; then
+    chmod +x "$HOME/.local/bin/check_and_update.fish"
+    echo "✔ Permissions verified for check_and_update.fish"
+fi
