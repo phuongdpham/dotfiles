@@ -2,31 +2,6 @@
 # abbr --add l ls -l
 # abbr --add la l -a
 
-if status is-interactive
-    # --- Quick Audio & Device Controls ---
-    # Launch your new floating Arturia/Volume mixer
-    abbr -a vmix 'flatpak run com.saivert.pwvucontrol'
-
-    # Quick Bluetooth management
-    abbr -a btm blueman-manager
-    abbr -a bton 'bluetoothctl power on'
-
-    # --- Development & Projects ---
-    # Quickly jump into your main Go project
-    # abbr -a andpad 'cd ~/path/to/andpad-apis'
-
-    # Launch IDEs (assuming they are in your PATH)
-    abbr -a go 'goland .'
-    abbr -a py 'pycharm .'
-
-    # --- System & Niri ---
-    # Reload niri config after you make changes
-    abbr -a nrel 'niri msg action reload-config'
-
-    # Identify windows for your config.kdl rules
-    abbr -a nwin 'niri msg windows'
-end
-
 if type -q eza
     alias ls 'eza --grid --long --icons --header --group-directories-first --color=always --git --binary --modified'
     abbr --add l ls -l

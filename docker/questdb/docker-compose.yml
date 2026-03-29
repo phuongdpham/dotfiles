@@ -5,7 +5,7 @@ services:
     # Sử dụng phiên bản mới nhất tính đến đầu năm 2026
     image: questdb/questdb:9.3.3
     container_name: questdb_hft_pro
-    restart: always
+    # restart: always
 
     # Cấu hình tài nguyên phần cứng (Resource Tuning)
     deploy:

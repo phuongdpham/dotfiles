@@ -1,7 +1,6 @@
 # Config start fnm with fish
-fish_add_path ~/.cargo/bin
-
 if type -q fnm
-    fnm env --use-on-cd --shell fish | source
+    # --use-on-cd can sometimes trigger subshell path stacking
+    # FNM handles its own pathing, but ensuring it's only sourced once is key
+    status is-interactive; and fnm env --use-on-cd --shell fish | source
 end
-

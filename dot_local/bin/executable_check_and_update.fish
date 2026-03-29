@@ -1,49 +1,32 @@
 #!/usr/bin/fish
 
-# 1. Silent Check
-set -l pac_updates (checkupdates 2>/dev/null | count)
-set -l aur_updates (yay -Qu 2>/dev/null | count)
-set -l total (math $pac_updates + $aur_updates)
-
-if test $total -eq 0
-    exit 0
+# 2026 Pattern: Use 'command -v' for dependency checks
+for cmd in checkupdates yay alacritty notify-send
+    if not command -v $cmd >/dev/null
+        echo (set_color red)"✘ Missing dependency: $cmd"(set_color normal)
+        exit 1
+    end
 end
 
-# 2. Trigger Interactive Alacritty
-if not contains -- --run-update $argv
-    alacritty --title SystemUpdate -e fish -c "~/.local/bin/check_and_update.fish --run-update"
-    exit 0
-end
+# Logic: Unified Update Check
+set -l updates (checkupdates 2>/dev/null; yay -Qu 2>/dev/null)
+set -l count (count $updates)
 
-# 3. Actual Update Logic
-echo (set_color cyan)"📦 $total updates found"(set_color normal)
-set -l log_file /tmp/sys_update.log
-
-if sudo pacman -Syu --noconfirm >$log_file 2>&1; and yay -Syu --noconfirm >>$log_file 2>&1
-    echo (set_color green)"✔ System updated successfully."(set_color normal)
-
-    # --- START OF POST-UPDATE HOOK ---
-    echo (set_color yellow)"🧹 Cleaning Pacman cache..."(set_color normal)
-
-    # Capture disk usage before
-    set -l before (df -h / | awk 'NR==2 {print $4}')
-
-    # 1. Keep only the last 3 versions of installed packages
-    sudo paccache -r >>$log_file 2>&1
-
-    # 2. Remove all versions of uninstalled packages (true housecleaning)
-    sudo paccache -ruk0 >>$log_file 2>&1
-
-    # Capture disk usage after
-    set -l after (df -h / | awk 'NR==2 {print $4}')
-
-    echo (set_color green)"✔ Cache pruned. Free space: $before -> $after"(set_color normal)
-    # --- END OF POST-UPDATE HOOK ---
-
-    notify-send -u low "Arch Updated" "Disk space optimized: $after available."
-    sleep 3
+if test $count -gt 0
+    # Use Alacritty's modern 'hold' flag if you want to inspect manually
+    # or use the pipe logic we built earlier.
+    alacritty --title SystemUpdate -e fish -c "
+        echo (set_color cyan)'󰚰 System has $count pending updates'(set_color normal)
+        sudo pacman -Syu --noconfirm --color always | tee /tmp/pacman.log
+        yay -Syu --noconfirm --color always | tee -a /tmp/pacman.log
+        
+        # 2026 Housekeeping: Pruning the cache
+        sudo paccache -rk2 # Keep only 2 versions for tighter disk control
+        
+        echo (set_color green)'✔ Update complete. (Closing in 5s)'(set_color normal)
+        sleep 5
+    "
 else
-    notify-send -u critical "Update Failed" "Check $log_file"
-    echo (set_color red)"✘ Errors occurred. Press any key to inspect."(set_color normal)
-    read -n 1
+    # Silent log for your audit trail
+    echo "[$(date +%H:%M:%S)] System is clean." >>/tmp/update_check.log
 end

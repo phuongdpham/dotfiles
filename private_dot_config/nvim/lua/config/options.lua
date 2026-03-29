@@ -55,3 +55,9 @@ set.incsearch = true
 set.updatetime = 50
 
 set.timeoutlen = 300
+
+-- Disable providers you don't use to clear the 6 warnings
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python3_provider = 0

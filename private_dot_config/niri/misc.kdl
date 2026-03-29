@@ -1,9 +1,12 @@
 // === Startup Services ===
-spawn-at-startup "alacritty" "-e" "fish"
+
 spawn-at-startup "qs" "-c" "noctalia-shell"
-spawn-at-startup "fcitx5" "-d"
+spawn-at-startup "fcitx5" "-rd"
+spawn-at-startup "alacritty" "-e" "fish"
 spawn-at-startup "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
-spawn-at-startup "dbus-update-activation-environment" "--systemd" "XDG_DATA_DIRS" "TERMINAL" "WAYLAND_DISPLAY"
+
+// 3. The Update Script (Fixed with Chezmoi path)
+spawn-at-startup "fish" "{{ .chezmoi.homeDir }}/.local/bin/check_and_update.fish"
 
 // === Alt-Tab Behavior (Recent Windows) ===
 recent-windows {
@@ -26,20 +29,21 @@ recent-windows {
 
 // === Wayland Environment Fixes ===
 environment {
-    // Java fix for tiling WMs
+// --- UI & Theme Consistency (Fixed Icon Issue) ---
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_QPA_PLATFORM "wayland"
+    GDK_BACKEND "wayland,x11"
     _JAVA_AWT_WM_NONREPARENTING "1"
+    MOZ_ENABLE_WAYLAND "1"
 
-    // Input Method (Fcitx5)
+    // --- Input Method (Fcitx5 Vietnamese) ---
     QT_IM_MODULE "fcitx"
     XMODIFIERS "@im=fcitx"
     SDL_IM_MODULE "fcitx"
+    GLFW_IM_MODULE "ibus"
 
-    // GTK/Qt Wayland Force
-    QT_QPA_PLATFORM "wayland"
-    GDK_BACKEND "wayland,x11"
-
-    // Theme consistency
-    QT_QPA_PLATFORMTHEME "gtk3"
+    // --- XDG Data (For Flatpaks and Icons) ---
+    XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
 }
 
 // === Visuals & Interaction ===
