@@ -11,17 +11,19 @@
 {{-   $email = "phamduyphuong10@gmail.com" -}}
 {{- end -}}
 
+{{- $goprivate := promptStringOnce . "goprivate" "GOPRIVATE domain (leave blank to skip)" "" -}}
+
 encryption: age
 age:
   identity: "~/.config/chezmoi/key.txt"
   recipient: age1ckewaedkxlvag3w8spsxr5a6ssk3wf5yzerevspeala9mmaqfatqpyd762
 
-## {{ if eq $hosttype "desktop" "laptop" -}}
-## hooks:
-##   read-source-state:
-##     pre:
-##       command: ".local/share/chezmoi/.decrypt-private-key.sh"
-## {{- end }}
+# {{ if eq $hosttype "desktop" "laptop" -}}
+# hooks:
+#   read-source-state:
+#     pre:
+#       command: ".local/share/chezmoi/.decrypt-private-key.sh"
+# {{- end }}
 
 git:
   autoCommit: true
@@ -36,6 +38,8 @@ data:
   hosttype: {{ $hosttype | quote }}
   osid: {{ $osid | quote }}
   email: {{ $email | quote }}
+
+  goprivate: {{ $goprivate | quote }}
 
   packages:
     rpm-ostree:
