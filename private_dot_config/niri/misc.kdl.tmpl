@@ -1,11 +1,20 @@
 // === Startup Services ===
 
-spawn-at-startup "qs" "-c" "noctalia-shell"
-spawn-at-startup "fcitx5" "-rd"
-spawn-at-startup "alacritty" "-e" "fish"
-spawn-at-startup "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
+// 1. IMPORT ENVIRONMENT (The Reliable Way)
+// This tells systemd and D-Bus about Niri's Wayland socket.
+spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "QT_QPA_PLATFORMTHEME" "QT_IM_MODULE" "XMODIFIERS"
 
-// 3. The Update Script (Fixed with Chezmoi path)
+// 2. Launch UI Shell
+spawn-at-startup "uwsm" "app" "--" "qs" "-c" "noctalia-shell"
+
+// 3. Launch Fcitx5 (With 2s delay)
+spawn-at-startup "uwsm" "app" "--" "sh" "-c" "sleep 2; fcitx5 -rd"
+
+// 4. Other apps
+spawn-at-startup "uwsm" "app" "--" "alacritty" "-e" "fish"
+spawn-at-startup "uwsm" "app" "--" "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
+
+// 5. Portable Update Script
 spawn-at-startup "fish" "{{ .chezmoi.homeDir }}/.local/bin/check_and_update.fish"
 
 // === Alt-Tab Behavior (Recent Windows) ===
@@ -29,21 +38,18 @@ recent-windows {
 
 // === Wayland Environment Fixes ===
 environment {
-// --- UI & Theme Consistency (Fixed Icon Issue) ---
+    // Keep UI-specific theme and input variables here
     QT_QPA_PLATFORMTHEME "gtk3"
-    QT_QPA_PLATFORM "wayland"
-    GDK_BACKEND "wayland,x11"
-    _JAVA_AWT_WM_NONREPARENTING "1"
-    MOZ_ENABLE_WAYLAND "1"
-
-    // --- Input Method (Fcitx5 Vietnamese) ---
     QT_IM_MODULE "fcitx"
     XMODIFIERS "@im=fcitx"
     SDL_IM_MODULE "fcitx"
-    GLFW_IM_MODULE "ibus"
+    _JAVA_AWT_WM_NONREPARENTING "1"
 
-    // --- XDG Data (For Flatpaks and Icons) ---
     XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
+
+    // Explicitly set this to help UWSM recognize the session
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
 }
 
 // === Visuals & Interaction ===
