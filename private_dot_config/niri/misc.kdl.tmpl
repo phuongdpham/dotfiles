@@ -1,20 +1,45 @@
+environment {
+    // --- Backend & Tooling (88labs) ---
+    // These are constants. They don't change session-to-session.
+    EDITOR "nvim"
+    VISUAL "nvim"
+    TERMINAL "alacritty"
+    GOPATH "{{ .chezmoi.homeDir }}/go"
+    {{- if .goprivate }}
+    GOPRIVATE "{{ .goprivate }}"
+    {{- end }}
+    CGO_ENABLED "0"
+
+    // --- UI, Icons & Input ---
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_IM_MODULE "fcitx"
+    XMODIFIERS "@im=fcitx"
+    SDL_IM_MODULE "fcitx"
+    _JAVA_AWT_WM_NONREPARENTING "1"
+    XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
+
+    // --- Wayland Compatibility ---
+    QT_QPA_PLATFORM "wayland"
+    GDK_BACKEND "wayland,x11"
+    MOZ_ENABLE_WAYLAND "1"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+}
+
 // === Startup Services ===
 
-// 1. IMPORT ENVIRONMENT (The Reliable Way)
-// This tells systemd and D-Bus about Niri's Wayland socket.
-spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "QT_QPA_PLATFORMTHEME" "QT_IM_MODULE" "XMODIFIERS"
+// 1. SYNC TO SYSTEMD (Crucial for JetBrains & GUI apps)
+// We DON'T import PATH here because systemd should use its own system path.
+// We only import the variables needed by GUI apps.
+spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "GOPRIVATE" "GOPATH" "QT_QPA_PLATFORMTHEME"
 
-// 2. Launch UI Shell
-spawn-at-startup "uwsm" "app" "--" "qs" "-c" "noctalia-shell"
+// 2. Launch UI & Input
+spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "sh" "-c" "sleep 2; fcitx5 -rd"
 
-// 3. Launch Fcitx5 (With 2s delay)
-spawn-at-startup "uwsm" "app" "--" "sh" "-c" "sleep 2; fcitx5 -rd"
-
-// 4. Other apps
-spawn-at-startup "uwsm" "app" "--" "alacritty" "-e" "fish"
-spawn-at-startup "uwsm" "app" "--" "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
-
-// 5. Portable Update Script
+// 3. Apps & Scripts
+spawn-at-startup "alacritty" "-e" "fish"
+spawn-at-startup "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
 spawn-at-startup "fish" "{{ .chezmoi.homeDir }}/.local/bin/check_and_update.fish"
 
 // === Alt-Tab Behavior (Recent Windows) ===
@@ -34,22 +59,6 @@ recent-windows {
         Mod+grave        { next-window filter="app-id" scope="output"; }
         Mod+Shift+grave  { previous-window filter="app-id" scope="output"; }
     }
-}
-
-// === Wayland Environment Fixes ===
-environment {
-    // Keep UI-specific theme and input variables here
-    QT_QPA_PLATFORMTHEME "gtk3"
-    QT_IM_MODULE "fcitx"
-    XMODIFIERS "@im=fcitx"
-    SDL_IM_MODULE "fcitx"
-    _JAVA_AWT_WM_NONREPARENTING "1"
-
-    XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
-
-    // Explicitly set this to help UWSM recognize the session
-    XDG_CURRENT_DESKTOP "niri"
-    XDG_SESSION_TYPE "wayland"
 }
 
 // === Visuals & Interaction ===
