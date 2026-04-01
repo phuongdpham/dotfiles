@@ -1,29 +1,11 @@
 environment {
-    // --- Backend & Tooling (88labs) ---
-    // These are constants. They don't change session-to-session.
-    EDITOR "nvim"
-    VISUAL "nvim"
-    TERMINAL "alacritty"
-    GOPATH "{{ .chezmoi.homeDir }}/go"
-    {{- if .goprivate }}
-    GOPRIVATE "{{ .goprivate }}"
-    {{- end }}
-    CGO_ENABLED "0"
-
     // --- UI, Icons & Input ---
-    QT_QPA_PLATFORMTHEME "gtk3"
-    QT_IM_MODULE "fcitx"
-    XMODIFIERS "@im=fcitx"
-    SDL_IM_MODULE "fcitx"
-    _JAVA_AWT_WM_NONREPARENTING "1"
-    XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
-
-    // --- Wayland Compatibility ---
-    QT_QPA_PLATFORM "wayland"
-    GDK_BACKEND "wayland,x11"
-    MOZ_ENABLE_WAYLAND "1"
-    XDG_CURRENT_DESKTOP "niri"
-    XDG_SESSION_TYPE "wayland"
+    //QT_QPA_PLATFORMTHEME "gtk3"
+    //QT_IM_MODULE "fcitx"
+    //XMODIFIERS "@im=fcitx"
+    //SDL_IM_MODULE "fcitx"
+    //_JAVA_AWT_WM_NONREPARENTING "1"
+    //XDG_DATA_DIRS "{{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share"
 }
 
 // === Startup Services ===
@@ -31,7 +13,9 @@ environment {
 // 1. SYNC TO SYSTEMD (Crucial for JetBrains & GUI apps)
 // We DON'T import PATH here because systemd should use its own system path.
 // We only import the variables needed by GUI apps.
-spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "GOPRIVATE" "GOPATH" "QT_QPA_PLATFORMTHEME"
+// spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "GOPRIVATE" "GOPATH" "QT_QPA_PLATFORMTHEME"
+// Ensure the environment is set before running scripts
+spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
 
 // 2. Launch UI & Input
 spawn-at-startup "qs" "-c" "noctalia-shell"
@@ -40,7 +24,7 @@ spawn-at-startup "sh" "-c" "sleep 2; fcitx5 -rd"
 // 3. Apps & Scripts
 spawn-at-startup "alacritty" "-e" "fish"
 spawn-at-startup "wlsunset" "-l" "21.03" "-L" "105.85" "-t" "6500" "3000"
-spawn-at-startup "fish" "{{ .chezmoi.homeDir }}/.local/bin/check_and_update.fish"
+spawn-at-startup "{{ .chezmoi.homeDir }}/.local/bin/check_and_update.fish"
 
 // === Alt-Tab Behavior (Recent Windows) ===
 recent-windows {
