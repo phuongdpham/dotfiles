@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-# 1. Dependency Check
+# 2. Dependency Check
 for cmd in checkupdates yay alacritty notify-send
     if not command -v $cmd >/dev/null
         echo (set_color red)"✘ Missing dependency: $cmd"(set_color normal)
@@ -8,16 +8,17 @@ for cmd in checkupdates yay alacritty notify-send
     end
 end
 
-# 2. Setup Persistent Log Path (Using Chezmoi Template)
+# 3. Persistent Log Path
 set -l log_file "{{ .chezmoi.homeDir }}/.local/state/pacman_updates.log"
-mkdir -p (dirname $log_file)
+# Ensure the directory exists using absolute path to avoid lookup failure
+/usr/bin/mkdir -p (dirname $log_file)
 
-# 3. Check for updates
+# 4. Check for updates (Syncing databases first is safer for checkupdates)
+# Note: checkupdates handles the fake root sync safely.
 set -l updates (checkupdates 2>/dev/null; yay -Qu 2>/dev/null)
 set -l count (count $updates)
 
 if test $count -gt 0
-    # 4. Interactive Notification
     set -l action (notify-send "󰚰 System Updates" \
         "There are $count updates available." \
         --icon=system-software-update \
@@ -25,35 +26,32 @@ if test $count -gt 0
         --wait)
 
     if test "$action" = update
+        # Use Alacritty with a specific class for Niri styling if needed
         alacritty --title "System Update" -e fish -c "
-            echo (set_color cyan)'󰚰 Starting update at '(date +'%Y-%m-%d %H:%M:%S')'...'(set_color normal)
-            
-            # Header for the log file
+            echo (set_color cyan)'󰚰 Initializing Secure Update...'(set_color normal)
             echo \"--- Update Session: \$(date) ---\" >> $log_file
 
-            # Update Core System
-            sudo pacman -Syu --noconfirm --color always | tee -a $log_file
+            # Update System
+            sudo pacman -Syu --color always | tee -a $log_file
             set -l pac_status \$pipestatus[1]
 
             # Update AUR
-            yay -Syu --noconfirm --color always | tee -a $log_file
+            yay -Syu --color always | tee -a $log_file
             set -l yay_status \$pipestatus[1]
 
-            # 5. Logical Error Check (The 'Senior' Check)
             if test \$pac_status -eq 0 -a \$yay_status -eq 0
                 sudo paccache -rk2
                 echo (set_color green)'✔ System updated successfully.'(set_color normal)
                 echo \"Status: SUCCESS\" >> $log_file
             else
-                echo (set_color red)'✘ Update failed. Check $log_file'(set_color normal)
-                echo \"Status: FAILED (Pacman: \$pac_status, Yay: \$yay_status)\" >> $log_file
+                echo (set_color red)'✘ Update failed or cancelled. Check $log_file'(set_color normal)
+                echo \"Status: FAILED/CANCELLED (Pacman: \$pac_status, Yay: \$yay_status)\" >> $log_file
             end
 
-            echo 'Closing in 10 seconds...'
+            echo 'Window will close in 10 seconds...'
             sleep 10
         "
     end
 else
-    # Minimalist logging for clean systems
-    echo "[$(date +%H:%M:%S)] System is clean." >>"$log_file"
+    echo "[(date +%H:%M:%S)] No updates available." >>$log_file
 end
