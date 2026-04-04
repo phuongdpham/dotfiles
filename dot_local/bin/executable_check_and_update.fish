@@ -19,7 +19,7 @@ set -l updates (checkupdates 2>/dev/null; yay -Qu 2>/dev/null)
 set -l count (count $updates)
 
 if test $count -gt 0
-    set -l action (notify-send "󰚰 System Updates" \
+    set -l action (notify-send "󰚰  System Updates" \
         "There are $count updates available." \
         --icon=system-software-update \
         --action="update=Update Now" \
