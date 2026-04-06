@@ -1,0 +1,29 @@
+# --- Backend & Tooling (88labs) ---
+EDITOR=nvim
+VISUAL=nvim
+TERMINAL=alacritty
+GOPATH={{ .chezmoi.homeDir }}/go
+{{- if .goprivate }}
+GOPRIVATE={{ .goprivate }}
+{{- end }}
+CGO_ENABLED=0
+
+# --- UI, Icons & Input ---
+QT_QPA_PLATFORMTHEME=gtk3
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+_JAVA_AWT_WM_NONREPARENTING=1
+XDG_DATA_DIRS={{ .chezmoi.homeDir }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+
+# --- Wayland Compatibility ---
+QT_QPA_PLATFORM=wayland
+GDK_BACKEND=wayland,x11
+MOZ_ENABLE_WAYLAND=1
+XDG_CURRENT_DESKTOP=niri
+XDG_SESSION_TYPE=wayland
+
+# --- Cursor theme ---
+XCURSOR_THEME=Bibata-Modern-Ice
+XCURSOR_SIZE=24
+
