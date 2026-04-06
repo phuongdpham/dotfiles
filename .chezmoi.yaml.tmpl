@@ -11,6 +11,15 @@
 {{-   $email = "phamduyphuong10@gmail.com" -}}
 {{- end -}}
 
+{{- $t14sOutput := "BOE 0x094C Unknown" -}}
+{{- $dellScreenOutput := "Dell Inc. DELL P2421D 174VR63" -}}
+{{- $outputName := "" -}}
+{{- if eq $hosttype "laptop" -}}
+{{-   $outputName = $t14sOutput -}}
+{{- else if eq $hosttype "desktop" -}}
+{{-   $outputName = $dellScreenOutput -}}
+{{- end -}}
+
 {{- $goprivate := promptStringOnce . "goprivate" "GOPRIVATE domain (leave blank to skip)" "" -}}
 
 encryption: age
@@ -18,7 +27,7 @@ age:
   identity: "~/.config/chezmoi/key.txt"
   recipient: age1ckewaedkxlvag3w8spsxr5a6ssk3wf5yzerevspeala9mmaqfatqpyd762
 
-# {{ if eq $hosttype "desktop" "laptop" -}}
+# {{ if or (eq $hosttype "desktop") (eq $hosttype "laptop") -}}
 # hooks:
 #   read-source-state:
 #     pre:
@@ -40,6 +49,10 @@ data:
   email: {{ $email | quote }}
 
   goprivate: {{ $goprivate | quote }}
+
+  {{- if $outputName }}
+  outputName: {{ $outputName | quote }}
+  {{- end }}
 
   packages:
     rpm-ostree:
