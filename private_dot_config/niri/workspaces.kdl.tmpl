@@ -6,5 +6,5 @@ workspace "backend" {
     open-on-output {{ .outputName | quote }}
 }
 workspace "frontend" {
-    open-on-output {{ .outputName }}
+    open-on-output {{ .outputName | quote }}
 }
