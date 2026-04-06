@@ -50,6 +50,10 @@ data:
 
   goprivate: {{ $goprivate | quote }}
 
+  {{ if $outputName -}}
+  outputName: {{ $outputName | quote }}
+  {{- end }}
+
   packages:
     rpm-ostree:
       # Essentials

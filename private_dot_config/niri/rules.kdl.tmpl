@@ -78,6 +78,7 @@ window-rule {
     open-floating true
     default-column-width { proportion 0.75; }
     default-window-height { fixed 300; }
-    // Centering on your Dell P2421D 1440p screen
-    open-on-output "Dell Inc. DELL P2421D 174VR63" // Change to your monitor name from 'niri msg outputs'
+
+    // Centering on .outputName screen
+    open-on-output {{ .outputName | quote }}
 }
