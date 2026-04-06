@@ -1,3 +1,4 @@
+{{- if eq .hosttype "desktop" -}}
 output "Dell Inc. DELL P2421D 174VR63" {
     mode "2560x1440@59.951"
 
@@ -6,3 +7,13 @@ output "Dell Inc. DELL P2421D 174VR63" {
 
     variable-refresh-rate on-demand=true
 }
+{{- else if eq .hosttype "laptop" -}}
+output "BOE 0x094C Unknown" {
+    mode "1920x1200@60.003"
+
+    scale 1
+    position x=0 y=0
+
+    variable-refresh-rate on-demand=true
+}
+{{- end -}}
