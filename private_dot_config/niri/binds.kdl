@@ -6,7 +6,7 @@ binds {
     Mod+Escape      { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
 
     // === Applications (Mnemonic Optimized) ===
-    Mod+Return      { spawn "alacritty"; }
+    Mod+Return      { spawn "kitty"; }
     Mod+T           { spawn "~/source/sh/spawn-alacritty.bash" "toolbox"; }
     Mod+Shift+T     { spawn "~/source/sh/spawn-alacritty.bash" "host"; }
     Mod+Space       { spawn "fuzzel"; }
