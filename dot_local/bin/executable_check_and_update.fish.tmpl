@@ -48,8 +48,9 @@ if test $count -gt 0
                 echo \"Status: FAILED/CANCELLED (Pacman: \$pac_status, Yay: \$yay_status)\" >> $log_file
             end
 
-            echo 'Window will close in 10 seconds...'
-            sleep 10
+            echo
+            echo (set_color yellow)'Press [ENTER] to close now, or window will auto-close in 10s...'(set_color normal)
+            read -t 10
         "
     end
 else

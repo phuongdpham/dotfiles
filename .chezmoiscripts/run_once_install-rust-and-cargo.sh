@@ -29,12 +29,3 @@ cargo install \
     bat
 
 echo "Rust and Cargo setup complete!"
-
-# Ensure the bin directory exists
-mkdir -p "$HOME/.local/bin"
-
-# Force permissions just in case
-if [ -f "$HOME/.local/bin/check_and_update.fish" ]; then
-    chmod +x "$HOME/.local/bin/check_and_update.fish"
-    echo "✔ Permissions verified for check_and_update.fish"
-fi
