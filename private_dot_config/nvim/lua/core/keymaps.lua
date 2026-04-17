@@ -6,13 +6,8 @@ keymap('n', '<leader>rl', '<cmd>source ~/.config/nvim/init.lua<cr>')
 -- 0.12 Native Undo Tree
 keymap('n', '<leader>u', '<cmd>UndoTreeToggle<cr>', { desc = 'Toggle Native Undo Tree' })
 
--- Telescope
-keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
-keymap('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
-keymap('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
-
 -- Harpoon 2
-keymap('n', '<leader>h', function()
+keymap('n', '<leader>a', function()
     require('harpoon'):list():add()
 end, { desc = 'Harpoon Add' })
 keymap('n', '<C-e>', function()
@@ -21,16 +16,16 @@ keymap('n', '<C-e>', function()
 end, { desc = 'Harpoon List' })
 
 -- Persistence
-keymap('n', '<leader>qs', function()
+keymap('n', '<leader>ps', function()
     require('persistence').load()
 end, { desc = 'Restore Session' })
-keymap('n', '<leader>qS', function()
+keymap('n', '<leader>pS', function()
     require('persistence').select()
 end, { desc = 'Select Session' })
-keymap('n', '<leader>ql', function()
+keymap('n', '<leader>pl', function()
     require('persistence').load { last = true }
 end, { desc = 'Restore Last Session' })
-keymap('n', '<leader>qd', function()
+keymap('n', '<leader>pd', function()
     require('persistence').stop()
 end, { desc = "Don't Save Current Session" })
 

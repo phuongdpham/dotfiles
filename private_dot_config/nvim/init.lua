@@ -1,7 +1,6 @@
 vim.filetype.add {
     extension = {
         tmpl = 'gotmpl',
-    'norg',
         work = 'gowork',
     },
     filename = {

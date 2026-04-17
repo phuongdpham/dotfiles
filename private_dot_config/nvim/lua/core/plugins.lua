@@ -124,7 +124,7 @@ require('lualine').setup {
         disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'snacks_dashboard', 'snacks_explorer' } },
     },
     sections = {
-        lualine_a = { { 'mode', upper = true } },
+        lualine_a = { { 'mode' } },
         lualine_b = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
         lualine_c = {
             { 'filename', path = 1, symbols = { modified = ' ●', readonly = ' ', unnamed = '[No Name]' } },
@@ -150,8 +150,16 @@ require('lualine').setup {
             'fileformat',
             'filetype',
         },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' },
+        lualine_y = {
+            { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } }, },
+        lualine_z = {
+            {
+                'datetime',
+                -- options: default, us, uk, iso, or your own format string ("%H:%M", etc..)
+                style = 'default'
+            }
+        },
     },
 }
 
@@ -205,15 +213,36 @@ require('chezmoi').setup {
 }
 
 -- Which-Key
-require('which-key').setup {
+local wk = require("which-key")
+wk.setup {
     preset = 'helix', -- The 'helix' preset looks fantastic with Tokyonight
 }
 
 -- (Optional) Name your shortcut groups so the menu looks organized
-require('which-key').add {
-    { '<leader>f', group = 'Find / File' },
+wk.add({
     { '<leader>c', group = 'Code / Chezmoi' },
-}
+    { '<leader>f', group = 'Find / File' },
+    { '<leader>h', group = 'Gitsigns', icon = "󰊢 " },
+    { '<leader>p', group = 'Persistence session' },
+    { '<leader>g', group = 'Git / GitHub' },
+    { '<leader>r', group = 'Reload' },
+    { '<leader>s', group = 'Grep / Search' },
+    { '<leader>t', group = 'Toggles' },
+    {
+        "<leader>b",
+        group = "buffers",
+        expand = function()
+            return require("which-key.extras").expand.buf()
+        end
+    },
+    {
+        -- Nested mappings are allowed and can be added in any order
+        -- Most attributes can be inherited or overridden on any level
+        -- There's no limit to the depth of nesting
+        mode = { "n", "v" }, -- NORMAL and VISUAL mode
+        { "<leader>w", "<cmd>w<cr>", desc = "Write" },
+    }
+})
 
 -- ==========================================
 -- Tree-sitter (New v1.0 / Main Branch API)
@@ -348,11 +377,11 @@ require('gitsigns').setup {
     },
     auto_attach                  = true,
     attach_to_untracked          = false,
-    current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    current_line_blame           = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
     current_line_blame_opts      = {
         virt_text = true,
         virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-        delay = 300,
+        delay = 0,
         ignore_whitespace = false,
         virt_text_priority = 100,
         use_focus = true,
@@ -370,4 +399,67 @@ require('gitsigns').setup {
         row = 0,
         col = 1
     },
+    on_attach                    = function(bufnr)
+        local gitsigns = require('gitsigns')
+
+        local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+            if vim.wo.diff then
+                vim.cmd.normal({ ']c', bang = true })
+            else
+                gitsigns.nav_hunk('next')
+            end
+        end, { desc = 'Next Hunk' })
+
+        map('n', '[c', function()
+            if vim.wo.diff then
+                vim.cmd.normal({ '[c', bang = true })
+            else
+                gitsigns.nav_hunk('prev')
+            end
+        end, { desc = 'Prev Hunk' })
+
+        -- Actions
+        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Stage Hunk' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Reset Hunk' })
+
+        map('v', '<leader>hs', function()
+            gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = 'Stage Hunk Selected' })
+
+        map('v', '<leader>hr', function()
+            gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = 'Reset Hunk Selected' })
+
+        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'Stage Buffer' })
+        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'Reset Buffer' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview Hunk' })
+        map('n', '<leader>hi', gitsigns.preview_hunk_inline, { desc = 'Preview Hunk Inline' })
+
+        map('n', '<leader>hb', function()
+            gitsigns.blame_line({ full = true })
+        end, { desc = 'Blame line' })
+
+        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'Diff' })
+
+        map('n', '<leader>hD', function()
+            gitsigns.diffthis('~')
+        end, { desc = 'Diff ~' })
+
+        map('n', '<leader>hQ', function() gitsigns.setqflist('all') end, { desc = 'Setqflist All' })
+        map('n', '<leader>hq', gitsigns.setqflist, { desc = 'Setqflist' })
+
+        -- Toggles
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = 'Toggle Current Line Blame' })
+        map('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = 'Toggle Word Diff' })
+
+        -- Text object
+        map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'Select Hunk' })
+    end
 }
