@@ -26,32 +26,27 @@ if test $count -gt 0
         --wait)
 
     if test "$action" = update
-        # Use Alacritty with a specific class for Niri styling if needed
-        alacritty --title "System Update" -e fish -c "
-            echo (set_color cyan)'󰚰 Initializing Secure Update...'(set_color normal)
-            echo \"--- Update Session: \$(date) ---\" >> $log_file
+        env LOG_FILE=$log_file kitty --title "System Update" fish -c '
+            echo (set_color cyan)"󰚰 Initializing Secure Update..."(set_color normal)
+            echo "--- Update Session: $(date) ---" >> $LOG_FILE
 
             # Update System
-            sudo pacman -Syu --color always | tee -a $log_file
-            set -l pac_status \$pipestatus[1]
+            sudo pacman -Syu --color always | tee -a $LOG_FILE
+            set -l pac_status $pipestatus[1]
 
             # Update AUR
-            yay -Syu --color always | tee -a $log_file
-            set -l yay_status \$pipestatus[1]
+            yay -Syu --color always | tee -a $LOG_FILE
+            set -l yay_status $pipestatus[1]
 
-            if test \$pac_status -eq 0 -a \$yay_status -eq 0
+            if test $pac_status -eq 0 -a $yay_status -eq 0
                 sudo paccache -rk2
-                echo (set_color green)'✔ System updated successfully.'(set_color normal)
-                echo \"Status: SUCCESS\" >> $log_file
+                echo (set_color green)"✔ System updated successfully."(set_color normal)
+                echo "Status: SUCCESS" >> $LOG_FILE
             else
-                echo (set_color red)'✘ Update failed or cancelled. Check $log_file'(set_color normal)
-                echo \"Status: FAILED/CANCELLED (Pacman: \$pac_status, Yay: \$yay_status)\" >> $log_file
+                echo (set_color red)"✘ Update failed or cancelled. Check $LOG_FILE"(set_color normal)
+                echo "Status: FAILED/CANCELLED (Pacman: $pac_status, Yay: $yay_status)" >> $LOG_FILE
             end
-
-            echo
-            echo (set_color yellow)'Press [ENTER] to close now, or window will auto-close in 10s...'(set_color normal)
-            read -t 10
-        "
+        '
     end
 else
     echo "[(date +%H:%M:%S)] No updates available." >>$log_file
