@@ -1,7 +1,7 @@
 #!/usr/bin/fish
 
 # 2. Dependency Check
-for cmd in checkupdates yay alacritty notify-send
+for cmd in checkupdates yay kitty notify-send
     if not command -v $cmd >/dev/null
         echo (set_color red)"✘ Missing dependency: $cmd"(set_color normal)
         exit 1
