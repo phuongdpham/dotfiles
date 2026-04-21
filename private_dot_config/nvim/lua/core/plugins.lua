@@ -216,6 +216,7 @@ require('chezmoi').setup {
 local wk = require("which-key")
 wk.setup {
     preset = 'helix', -- The 'helix' preset looks fantastic with Tokyonight
+    delay = 0,
 }
 
 -- (Optional) Name your shortcut groups so the menu looks organized

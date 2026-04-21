@@ -70,10 +70,19 @@ lsp.config('rust_analyzer', {
                 command = "clippy",
                 extraArgs = { "--no-deps" }, -- Optional: makes clippy faster
             },
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
 
             cargo = {
                 allFeatures = true,
                 loadOutDirsFromCheck = true,
+                buildScripts = {
+                    enable = true,
+                },
             },
             procMacro = {
                 enable = true,
@@ -127,6 +136,7 @@ lsp.enable('ruff')
 vim.diagnostic.config({
     -- We keep virtual_text but make it minimal since we have the Trouble list
     virtual_text = {
+        severity = { min = vim.diagnostic.severity.WARN }, -- Hide HINT/INFO in virtual text
         prefix = '●',
         spacing = 4,
     },
