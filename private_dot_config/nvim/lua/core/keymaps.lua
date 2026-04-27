@@ -61,9 +61,20 @@ keymap('n', '<leader>bl', '<Cmd>BufferLineCloseLeft<CR>', { desc = 'Delete Buffe
 keymap('n', '<leader>bj', '<cmd>BufferLinePick<cr>', { desc = 'Pick Buffer' })
 
 -- LSP hover
-keymap('n', 'K', function()
-    vim.lsp.buf.hover { border = 'rounded' }
-end, { desc = 'LSP Hover' })
+local function show_documentation()
+    local filetype = vim.bo.filetype
+    if filetype == "vim" or filetype == "help" then
+        vim.cmd('h ' .. vim.fn.expand('<cword>'))
+    elseif filetype == "man" then
+        vim.cmd('Man ' .. vim.fn.expand('<cword>'))
+    elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
+        require('crates').show_popup()
+    else
+        vim.lsp.buf.hover { border = 'rounded' }
+    end
+end
+
+keymap('n', 'K', show_documentation, { desc = 'LSP Hover' })
 
 -- 1. Format File (Native LSP - works for Go, Rust, Python, etc.)
 keymap('n', '<leader>cf', function()

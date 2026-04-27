@@ -6,7 +6,6 @@ if status is-interactive
     # Interactive shortcuts (Abbreviations)
     abbr -a cz chezmoi
     abbr -a n nvim
-    abbr -a gs 'git status'
 
     # Safety check: fish_add_path is idempotent, so it won't 
     # duplicate even if UWSM already set it.
@@ -22,10 +21,6 @@ if status is-interactive
 
     # --- Development & Projects ---
     # Quickly jump into your main Go project
-
-    # Launch IDEs (assuming they are in your PATH)
-    abbr -a go 'goland .'
-    abbr -a py 'pycharm .'
 
     # --- System & Niri ---
     # Reload niri config after you make changes

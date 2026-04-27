@@ -24,6 +24,7 @@ pack.add {
     'https://github.com/echasnovski/mini.icons',
     'https://github.com/lewis6991/gitsigns.nvim',
     'https://github.com/tpope/vim-fugitive',
+    'https://github.com/saecki/crates.nvim',
 }
 
 -- 3. System Integration
@@ -201,9 +202,12 @@ require('nvim-autopairs').setup { check_ts = true }
 -- Blink.cmp
 require('blink.cmp').setup {
     keymap = { preset = 'default' },
-    appearance = { nerd_font_variant = 'mono' },
+    appearance = {
+        nerd_font_variant = 'mono',
+        highlight_ns = vim.api.nvim_create_namespace('blink_cmp'),
+    },
     completion = { documentation = { auto_show = false } },
-    sources = { default = { 'lsp', 'path', 'buffer' } },
+    sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
     fuzzy = { implementation = 'prefer_rust_with_warning' },
 }
 
@@ -497,4 +501,17 @@ require('gitsigns').setup {
         -- Text object
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'Select Hunk' })
     end
+}
+
+-- Creates
+require('crates').setup {
+    lsp = {
+        enabled = true,
+        on_attach = function(client, bufnr)
+            -- Optional: add your specific keymaps here
+        end,
+        actions = true,
+        completion = true,
+        hover = true,
+    },
 }
