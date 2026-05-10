@@ -3,10 +3,6 @@ EDITOR=nvim
 VISUAL=nvim
 TERMINAL=alacritty
 GOPATH={{ .chezmoi.homeDir }}/go
-{{- if .goprivate }}
-GOPRIVATE={{ .goprivate }}
-{{- end }}
-CGO_ENABLED=0
 
 # --- UI, Icons & Input ---
 QT_QPA_PLATFORMTHEME=gtk3
