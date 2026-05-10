@@ -30,13 +30,17 @@ if test $count -gt 0
             echo (set_color cyan)"󰚰 Initializing Secure Update..."(set_color normal)
             echo "--- Update Session: $(date) ---" >> $LOG_FILE
 
+            # script(1) wraps each command in a PTY so pacman/yay keep
+            # their progress bars while output is also appended to $LOG_FILE.
+            # -a append, -q quiet, -e propagate child exit, -f flush per write.
+
             # Update System
-            sudo pacman -Syu --color always | tee -a $LOG_FILE
-            set -l pac_status $pipestatus[1]
+            script -aqefc "sudo pacman -Syu --color always" $LOG_FILE
+            set -l pac_status $status
 
             # Update AUR
-            yay -Syu --color always | tee -a $LOG_FILE
-            set -l yay_status $pipestatus[1]
+            script -aqefc "yay -Syu --color always" $LOG_FILE
+            set -l yay_status $status
 
             if test $pac_status -eq 0 -a $yay_status -eq 0
                 sudo paccache -rk2
