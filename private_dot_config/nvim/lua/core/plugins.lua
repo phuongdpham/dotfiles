@@ -181,6 +181,19 @@ require('snacks').setup {
     words = { enabled = true },
     terminal = { enabled = false },
     statusline = { enabled = false },
+    -- SVG / raster file hijacking + inline markdown image rendering.
+    -- Auto-detects unicode placeholders and sets `tmux allow-passthrough on`.
+    -- ImageMagick (CLI on PATH) handles SVG -> PNG via the rsvg delegate.
+    image = {
+        enabled = true,
+        doc = {
+            inline = true, -- inline images in markdown / norg / tsx / etc.
+            float = true,  -- float on K hover
+            max_width = 80,
+            max_height = 40,
+        },
+        img_dirs = { 'img', 'images', 'assets', 'static', 'public', 'media', 'attachments' },
+    },
 }
 
 -- Conform Formatters
@@ -502,6 +515,7 @@ require('gitsigns').setup {
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'Select Hunk' })
     end
 }
+
 
 -- Creates
 require('crates').setup {

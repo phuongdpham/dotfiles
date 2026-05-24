@@ -42,3 +42,5 @@ set.timeoutlen = 300
 set.laststatus = 3
 set.showmode = false
 set.termguicolors = true
+
+set.modelines = 0
