@@ -18,7 +18,7 @@ environment {
 spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
 
 // 2. Launch UI & Input
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia"
 spawn-at-startup "sh" "-c" "sleep 2; fcitx5 -rd"
 
 // 3. Apps & Scripts

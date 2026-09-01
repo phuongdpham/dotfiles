@@ -2,8 +2,8 @@ binds {
     // === System & Meta ===
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Shift+E     { quit; }
-    Mod+Alt+L       allow-when-locked=true { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
-    Mod+Escape      { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
+    Mod+Alt+L       allow-when-locked=true { spawn-sh "noctalia msg session lock"; }
+    Mod+Escape      { spawn-sh "noctalia msg panel-toggle session"; }
 
     // === Applications (Mnemonic Optimized) ===
     Mod+Return      { spawn "kitty"; }
